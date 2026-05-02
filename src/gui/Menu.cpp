@@ -4,21 +4,24 @@
 #include "../imgui/backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include <string>
+#include <sstream>
+#include <iomanip>
+
 
 static bool g_running = true;
 static bool g_minimized = false;
 static bool g_wallhack_enabled = false;
-
+static float g_currentFPS = 0.0f;
 static GLFWwindow* g_window = nullptr;
-static int g_fullWidth = 240;
-static int g_fullHeight = 140;
+static int g_fullWidth = 280;
+static int g_fullHeight = 200;
 static int g_miniWidth = 80;
 static int g_miniHeight = 30;
 static int g_windowPosX = 100;
 static int g_windowPosY = 100;
-
 static bool g_dragging = false;
 static ImVec2 g_dragOffset;
+
 
 bool Menu::Setup() {
     if (!glfwInit()) return false;
@@ -48,7 +51,9 @@ bool Menu::Setup() {
                 glfwGetCursorPos(win, &xpos, &ypos);
                 g_dragging = true;
                 g_dragOffset = ImVec2(xpos, ypos);
-            } else if (action == GLFW_RELEASE) {
+            } else
+            
+            if (action == GLFW_RELEASE) {
                 g_dragging = false;
             }
         }
@@ -70,7 +75,6 @@ bool Menu::Setup() {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->AddFontDefault();
-    
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
     
@@ -79,6 +83,7 @@ bool Menu::Setup() {
     style.WindowPadding = ImVec2(15, 15);
     style.ItemSpacing = ImVec2(10, 10);
     style.FramePadding = ImVec2(6, 4);
+    style.ScrollbarSize = 0.0f;
     
     ImVec4* colors = style.Colors;
     colors[ImGuiCol_WindowBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.92f);
@@ -86,12 +91,15 @@ bool Menu::Setup() {
     colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     colors[ImGuiCol_CheckMark] = ImVec4(1.0f, 0.2f, 0.2f, 1.0f);
     colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.8f);
+    colors[ImGuiCol_FrameBgHovered] = ImVec4(0.25f, 0.25f, 0.25f, 0.9f);
+    colors[ImGuiCol_FrameBgActive] = ImVec4(0.3f, 0.3f, 0.3f, 0.9f);
     
     ImGui_ImplGlfw_InitForOpenGL(g_window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 
     return true;
 }
+
 
 void Menu::Shutdown() {
     ImGui_ImplOpenGL3_Shutdown();
@@ -105,6 +113,7 @@ void Menu::Shutdown() {
     
     glfwTerminate();
 }
+
 
 void Menu::Render() {
     glfwPollEvents();
@@ -149,33 +158,35 @@ void Menu::Render() {
         }
         
     } else {
+
         ImVec2 closePos(windowPos.x + windowWidth - 35, windowPos.y + 5);
         ImVec2 minusPos(windowPos.x + windowWidth - 60, windowPos.y + 5);
         
         bool minusHovered = (ImGui::GetIO().MousePos.x > minusPos.x && 
-                             ImGui::GetIO().MousePos.x < minusPos.x + 18 &&
-                             ImGui::GetIO().MousePos.y > minusPos.y && 
-                             ImGui::GetIO().MousePos.y < minusPos.y + 18);
+        ImGui::GetIO().MousePos.x < minusPos.x + 18 &&
+        ImGui::GetIO().MousePos.y > minusPos.y && 
+        ImGui::GetIO().MousePos.y < minusPos.y + 18);
         
         if (minusHovered) {
             drawList->AddRectFilled(minusPos, ImVec2(minusPos.x + 18, minusPos.y + 18), 
-                                    IM_COL32(150, 50, 50, 255), 4);
+            IM_COL32(150, 50, 50, 255), 4);
             if (ImGui::IsMouseClicked(0)) {
                 g_minimized = true;
                 glfwSetWindowSize(g_window, g_miniWidth, g_miniHeight);
             }
         } else {
+
             drawList->AddRect(minusPos, ImVec2(minusPos.x + 18, minusPos.y + 18), 
-                             IM_COL32(255, 80, 80, 255), 4);
+            IM_COL32(255, 80, 80, 255), 4);
         }
         drawList->AddLine(ImVec2(minusPos.x + 4, minusPos.y + 9), 
-                         ImVec2(minusPos.x + 14, minusPos.y + 9), 
-                         IM_COL32(255, 80, 80, 255), 2.0f);
+        ImVec2(minusPos.x + 14, minusPos.y + 9), 
+        IM_COL32(255, 80, 80, 255), 2.0f);
         
         bool closeHovered = (ImGui::GetIO().MousePos.x > closePos.x && 
-                             ImGui::GetIO().MousePos.x < closePos.x + 18 &&
-                             ImGui::GetIO().MousePos.y > closePos.y && 
-                             ImGui::GetIO().MousePos.y < closePos.y + 18);
+        ImGui::GetIO().MousePos.x < closePos.x + 18 &&
+        ImGui::GetIO().MousePos.y > closePos.y && 
+        ImGui::GetIO().MousePos.y < closePos.y + 18);
         
         if (closeHovered) {
             drawList->AddRectFilled(closePos, ImVec2(closePos.x + 18, closePos.y + 18), 
@@ -184,38 +195,64 @@ void Menu::Render() {
                 g_running = false;
             }
         } else {
+        
             drawList->AddRect(closePos, ImVec2(closePos.x + 18, closePos.y + 18), 
-                             IM_COL32(255, 80, 80, 255), 4);
+            IM_COL32(255, 80, 80, 255), 4);
         }
         drawList->AddLine(ImVec2(closePos.x + 4, closePos.y + 4), 
-                         ImVec2(closePos.x + 14, closePos.y + 14), 
-                         IM_COL32(255, 80, 80, 255), 2.0f);
+        ImVec2(closePos.x + 14, closePos.y + 14), 
+        IM_COL32(255, 80, 80, 255), 2.0f);
         drawList->AddLine(ImVec2(closePos.x + 14, closePos.y + 4), 
-                         ImVec2(closePos.x + 4, closePos.y + 14), 
-                         IM_COL32(255, 80, 80, 255), 2.0f);
+        ImVec2(closePos.x + 4, closePos.y + 14), 
+        IM_COL32(255, 80, 80, 255), 2.0f);
         
         ImGui::SetWindowFontScale(0.8f);
-        
         std::string title = "Linux CS2 by @islavikfx";
         ImGui::SetCursorPosX(15);
         ImGui::SetCursorPosY(8);
         ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), "%s", title.c_str());
-        
         ImGui::SetWindowFontScale(1.0f);
         
-        ImVec2 lineStart(windowPos.x + 3, windowPos.y + 32);
-        ImVec2 lineEnd(windowPos.x + windowWidth - 3, windowPos.y + 32);
+        ImVec2 lineStart(windowPos.x + 10, windowPos.y + 32);
+        ImVec2 lineEnd(windowPos.x + windowWidth - 10, windowPos.y + 32);
         drawList->AddLine(lineStart, lineEnd, IM_COL32(255, 80, 80, 255), 2.0f);
         
-        ImGui::SetCursorPosY(45);
+
+        ImGui::SetCursorPosY(42);
         ImGui::SetCursorPosX(20);
-        
+        ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.9f, 1.0f), "INFO");
+        ImGui::SetCursorPosY(65);
+        ImGui::SetCursorPosX(25);
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         
         ImGui::Checkbox(" Wallhack", &g_wallhack_enabled);
-        
         ImGui::PopStyleVar(2);
+        ImGui::SetCursorPosY(105);
+        ImGui::SetCursorPosX(20);
+        
+        drawList->AddLine(ImVec2(windowPos.x + 10, windowPos.y + 100), 
+        ImVec2(windowPos.x + windowWidth - 10, windowPos.y + 100), 
+        IM_COL32(80, 80, 80, 100), 1.0f);
+        ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.9f, 1.0f), "STATUS");
+        
+        ImGui::SetCursorPosY(128);
+        ImGui::SetCursorPosX(25);
+        ImVec4 statusColor = g_wallhack_enabled ? 
+        ImVec4(0.2f, 1.0f, 0.2f, 1.0f) : ImVec4(1.0f, 0.2f, 0.2f, 1.0f);
+        std::string statusText = g_wallhack_enabled ? "ON" : "OFF";
+        
+        ImGui::Text("Wallhack: ");
+        ImGui::SameLine(0.0f, 5.0f);
+        ImGui::TextColored(statusColor, "%s", statusText.c_str());
+        ImGui::SetCursorPosY(windowHeight - 25);
+        ImGui::SetCursorPosX(10);
+        
+        std::ostringstream fpsStream;
+        fpsStream << "Menu FPS: " << std::fixed << std::setprecision(0) << g_currentFPS;
+        std::string fpsText = fpsStream.str();
+        ImVec4 fpsColor = ImVec4(0.6f, 0.6f, 0.6f, 0.8f);
+        ImGui::TextColored(fpsColor, "%s", fpsText.c_str());
     }
 
     ImGui::End();
@@ -230,17 +267,21 @@ void Menu::Render() {
     glfwSwapBuffers(g_window);
 }
 
+
 bool Menu::IsRunning() {
     return g_running && !glfwWindowShouldClose(g_window);
 }
+
 
 void Menu::SetWallhackEnabled(bool enabled) {
     g_wallhack_enabled = enabled;
 }
 
+
 bool Menu::IsWallhackEnabled() {
     return g_wallhack_enabled;
 }
+
 
 void Menu::SetVisible(bool visible) {
     if (visible) {
@@ -252,6 +293,17 @@ void Menu::SetVisible(bool visible) {
     }
 }
 
+
 bool Menu::IsVisible() {
     return !g_minimized;
+}
+
+
+void Menu::SetCurrentFPS(float fps) {
+    g_currentFPS = fps;
+}
+
+
+float Menu::GetCurrentFPS() {
+    return g_currentFPS;
 }
