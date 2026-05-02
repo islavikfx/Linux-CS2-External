@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdint>
 
+
 class ProcessManager {
 public:
     static bool FindProcess(const std::string& processName, uint32_t& pid);
