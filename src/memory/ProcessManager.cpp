@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cctype>
 
+
 bool ProcessManager::FindProcess(const std::string& processName, uint32_t& pid) {
     DIR* dir = opendir("/proc");
     if (!dir) return false;
@@ -38,6 +39,7 @@ bool ProcessManager::FindProcess(const std::string& processName, uint32_t& pid) 
     return false;
 }
 
+
 uintptr_t ProcessManager::GetModuleBase(uint32_t pid, const std::string& moduleName) {
     std::string mapsPath = "/proc/" + std::to_string(pid) + "/maps";
     std::ifstream mapsFile(mapsPath);
@@ -55,6 +57,7 @@ uintptr_t ProcessManager::GetModuleBase(uint32_t pid, const std::string& moduleN
     return 0;
 }
 
+
 bool ProcessManager::ReadMemory(uint32_t pid, uintptr_t address, void* buffer, size_t size) {
     std::string memPath = "/proc/" + std::to_string(pid) + "/mem";
     int memFd = open(memPath.c_str(), O_RDONLY);
@@ -66,6 +69,7 @@ bool ProcessManager::ReadMemory(uint32_t pid, uintptr_t address, void* buffer, s
     
     return bytesRead == static_cast<ssize_t>(size);
 }
+
 
 bool ProcessManager::WriteMemory(uint32_t pid, uintptr_t address, const void* buffer, size_t size) {
     std::string memPath = "/proc/" + std::to_string(pid) + "/mem";
