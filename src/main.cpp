@@ -24,8 +24,8 @@ bool ValidateOffset() {
         return true;
     }
     
-    std::cout << "[+] Offset not matching (0x189b8f2)."
-    << "Maybe CS2 Updated. Check for new file at GitHub project page or try to restart game." << std::endl;
+    std::cout << "[+] Offset not matching (0x189d1f2)."
+    << " Maybe CS2 Updated. Check for new file at GitHub project page or try to restart game." << std::endl;
     return false;
 }
 
