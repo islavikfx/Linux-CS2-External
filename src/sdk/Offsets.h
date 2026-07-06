@@ -44,3 +44,7 @@ Dump of assembler code from 0x7e8980e9fe1e to 0x7e8980e9fe46:
    0x00007e8980e9fe43:	nop    DWORD PTR [rax+rax*1+0x0]
 End of assembler dump.
 )";
+
+
+# // My launch options for linux cs2 if someone needs (nvidia, no vulcan shaders, "-threads 13" - CPU 12/6, set your own but +1)
+# // __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia %command% -novid -nojoy -tickrate 128 -threads 13 -vulkan -high +fps_max 240 +fps_max_menu 120 +r_fullscreen_gamma 3.3 +r_show_build_info false +cl_radar_square_always true +viewmodel_offset_y -1.80 +viewmodel_offset_x 0.65 +viewmodel_fov 75 +sv_cheats true
