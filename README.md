@@ -26,5 +26,7 @@ Youtube video: https://youtu.be/M0zOoZ9-VBs
 The offset in Offsets.h may need to be updated over time.
 
 Channel: t.me/islavikhome
+
 Community: discord.gg/VTM7NK7wzp
+
 Telegram & Discord contact: @islavikfx
