@@ -2,46 +2,50 @@
 #include <cstdint>
 
 
-# // unknown@unknown:~$ pgrep -f cs2
-# // 33298
-# // 33299
-# // 33345
-# // 33358
-# // 33359
-# // 33386
-# // 33391
-# // unknown@unknown:~$ sudo cat /proc/33391/maps | grep libclient.so
-# // [sudo] password for unknown:             
-# // 7e897f600000-7e89801e2000 r--p 00000000 103:02 14816745                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
-# // 7e89801e2000-7e8983765000 r-xp 00be1000 103:02 14816745                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
-# // 7e8983765000-7e898399d000 r--p 04163000 103:02 14816745                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
-# // 7e898399d000-7e8983a6f000 rw-p 0439a000 103:02 14816745                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
-# // unknown@unknown:~$ python3 -c 'print(hex(0x00007e8980e9fe32 - 0x7e897f600000))'
-# // 0x189fe32
-# // unknown@unknown:~$ 
+// # unknown@unknown:~$ 0x000074608e3e43f2
+// # 0x000074608e3e43f2: command not found
+// # unknown@unknown:~$ pgrep -f cs2
+// # 4126
+// # 4127
+// # 4168
+// # 4181
+// # 4182
+// # 4209
+// # 4214
+// # unknown@unknown:~$ sudo cat /proc/4214/maps | grep libclient.so
+// # [sudo] password for unknown:             
+// # 74608ca00000-74608d663000 r--p 00000000 103:02 14811294                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
+// # 74608d663000-746090cab000 r-xp 00c62000 103:02 14811294                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
+// # 746090cab000-746090f00000 r--p 042a9000 103:02 14811294                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
+// # 746090f00000-746090fab000 rw-p 044fd000 103:02 14811294                  /home/unknown/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/bin/linuxsteamrt64/libclient.so
+// # unknown@unknown:~$ python3 -c 'print(hex(0x000074608e3e43f2 - 0x74608ca00000))'
+// # 0x19e43f2
+// # unknown@unknown:~$ 
+
 namespace Offsets {
-    inline uintptr_t xray = 0x189fe32; // # july 7, 2026
+    inline uintptr_t xray = 0x19e43f2; // # july 16, 2026
 }
 
 
 std::string xrayasm = R"(
-Dump of assembler code from 0x7e8980e9fe1e to 0x7e8980e9fe46:
-   0x00007e8980e9fe1e:	add    BYTE PTR [rbx-0x247ab800],cl
-   0x00007e8980e9fe24:	sete   r12b
-   0x00007e8980e9fe28:	test   eax,eax
-   0x00007e8980e9fe2a:	sete   al
-   0x00007e8980e9fe2d:	or     r12b,al
-   0x00007e8980e9fe30:	je     0x7e8980e9fe48
-   0x00007e8980e9fe32:	xor    eax,eax
-   0x00007e8980e9fe34:	add    rsp,0x38
-   0x00007e8980e9fe38:	pop    rbx
-   0x00007e8980e9fe39:	pop    r12
-   0x00007e8980e9fe3b:	pop    r13
-   0x00007e8980e9fe3d:	pop    r14
-   0x00007e8980e9fe3f:	pop    r15
-   0x00007e8980e9fe41:	pop    rbp
-   0x00007e8980e9fe42:	ret
-   0x00007e8980e9fe43:	nop    DWORD PTR [rax+rax*1+0x0]
+Dump of assembler code from 0x74608e3e43df to 0x74608e3e4407:
+   0x000074608e3e43df:	mov    eax,DWORD PTR [rax]
+   0x000074608e3e43e1:	test   rbx,rbx
+   0x000074608e3e43e4:	sete   r12b
+   0x000074608e3e43e8:	test   eax,eax
+   0x000074608e3e43ea:	sete   al
+   0x000074608e3e43ed:	or     r12b,al
+   0x000074608e3e43f0:	je     0x74608e3e4408
+   0x000074608e3e43f2:	xor    eax,eax
+   0x000074608e3e43f4:	add    rsp,0x38
+   0x000074608e3e43f8:	pop    rbx
+   0x000074608e3e43f9:	pop    r12
+   0x000074608e3e43fb:	pop    r13
+   0x000074608e3e43fd:	pop    r14
+   0x000074608e3e43ff:	pop    r15
+   0x000074608e3e4401:	pop    rbp
+   0x000074608e3e4402:	ret
+   0x000074608e3e4403:	nop    DWORD PTR [rax+rax*1+0x0]
 End of assembler dump.
 )";
 
