@@ -13,11 +13,10 @@ cd Linux-CS2-External/
 mkdir -p build && cd build/
 cmake ..
 make -j$(nproc)
-sudo ./Linux-CS2
+sudo ./LinuxCS2
 ```
 
-#### Changelog from 19 May 2026:
- [+] Added blood WH glow when you hit enemy (with new CS2 update).
+#### Changelog from 16 July 2026:
  
  [+] Updated Offsets.h for last version.
 
