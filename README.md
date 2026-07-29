@@ -10,13 +10,15 @@ sudo apt install build-essential cmake git libglfw3-dev libglew-dev libopengl-de
 cd ~
 git clone https://github.com/islavikfx/Linux-CS2-External.git
 cd Linux-CS2-External/
-mkdir -p build && cd build/
-cmake ..
+mkdir -p build
+cd build/
+cmake ..\\
 make -j$(nproc)
-sudo ./LinuxCS2
+./LinuxCS2
 ```
+Run with sudo if doesnt work.
 
-#### Changelog from 16 July 2026:
+#### Changelog from 29 July 2026:
  
  [+] Updated Offsets.h for last version.
 
