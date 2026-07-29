@@ -129,11 +129,7 @@ void Menu::Render() {
     ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
     
     ImGui::Begin("Main", nullptr, 
-                 ImGuiWindowFlags_NoTitleBar | 
-                 ImGuiWindowFlags_NoResize | 
-                 ImGuiWindowFlags_NoMove | 
-                 ImGuiWindowFlags_NoCollapse | 
-                 ImGuiWindowFlags_NoSavedSettings);
+    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     ImVec2 windowPos = ImGui::GetWindowPos();
@@ -195,7 +191,6 @@ void Menu::Render() {
                 g_running = false;
             }
         } else {
-        
             drawList->AddRect(closePos, ImVec2(closePos.x + 18, closePos.y + 18), 
             IM_COL32(255, 80, 80, 255), 4);
         }
