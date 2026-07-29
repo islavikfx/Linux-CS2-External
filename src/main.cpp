@@ -1,167 +1,85 @@
-#include <iostream>
-#include <thread>
-#include <chrono>
-#include "memory/ProcessManager.h"
-#include "gui/Menu.h"
-#include "sdk/Offsets.h"
+#include "ProcessManager.h"
+#include <fstream>
+#include <dirent.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <algorithm>
+#include <cctype>
 
 
-static bool g_running = true;
-static uint32_t g_cs2_pid = 0;
-static uintptr_t g_client_base = 0;
-static uintptr_t g_patch_addr = 0;
-
-
-bool ValidateOffset() {
-    if (g_cs2_pid == 0 || g_patch_addr == 0) return false;
+bool ProcessManager::FindProcess(const std::string& processName, uint32_t& pid) {
+    DIR* dir = opendir("/proc");
+    if (!dir) return false;
     
-    uint8_t bytes[2];
-    if (!ProcessManager::ReadMemory(g_cs2_pid, g_patch_addr, bytes, 2)) {
-        return false;
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != nullptr) {
+        bool isNumber = true;
+        for (char* c = entry->d_name; *c; c++) {
+            if (!isdigit(*c)) { isNumber = false; break; }
+        }
+        
+        if (!isNumber) continue;
+        
+        std::string commPath = std::string("/proc/") + entry->d_name + "/comm";
+        std::ifstream commFile(commPath);
+        if (commFile.is_open()) {
+            std::string comm;
+            std::getline(commFile, comm);
+            comm.erase(std::remove(comm.begin(), comm.end(), '\n'), comm.end());
+            
+            if (comm == processName) {
+                pid = std::stoul(entry->d_name);
+                closedir(dir);
+                return true;
+            }
+        }
     }
-    
-    if (bytes[0] == 0x31 && bytes[1] == 0xc0) {
-        return true;
-    }
-    
-    std::cout << "[+] Offset not matching (0x19e4132) - last update at 29 July 2026."
-    << " Maybe CS2 Updated. Check for new file at GitHub project page or try to restart game." << std::endl;
+    closedir(dir);
     return false;
 }
 
 
-bool InitializeCS2() {
-    if (!ProcessManager::FindProcess("cs2", g_cs2_pid)) {
-        std::cerr << "[+] Aborted! CS2 Not found. Start CS2 before inject." << std::endl;
-        return false;
-    }
+uintptr_t ProcessManager::GetModuleBase(uint32_t pid, const std::string& moduleName) {
+    std::string mapsPath = "/proc/" + std::to_string(pid) + "/maps";
+    std::ifstream mapsFile(mapsPath);
+    if (!mapsFile.is_open()) return 0;
     
-    g_client_base = ProcessManager::GetModuleBase(g_cs2_pid, "libclient.so");
-    if (g_client_base == 0) {
-        std::cerr << "[+] Aborted! Cannot find libclient.so base." << std::endl;
-        return false;
-    }
-    
-    g_patch_addr = g_client_base + Offsets::xray;
-    std::cout << "[+] CS2 found. PID: " << g_cs2_pid << "." << std::endl;
-    
-    if (!ValidateOffset()) {
-        return false;
-    }
-    
-    return true;
-}
-
-
-void FindCS2() {
-    while (g_running) {
-        uint32_t pid = 0;
-        if (ProcessManager::FindProcess("cs2", pid)) {
-            if (pid != g_cs2_pid) {
-                g_cs2_pid = pid;
-                uintptr_t base = ProcessManager::GetModuleBase(pid, "libclient.so");
-                if (base != 0) {
-                    g_client_base = base;
-                    g_patch_addr = base + Offsets::xray;
-                    std::cout << "[+] CS2 reconnected." 
-                              << std::hex << g_patch_addr << std::endl;
-                }
+    std::string line;
+    while (std::getline(mapsFile, line)) {
+        if (line.find(moduleName) != std::string::npos) {
+            size_t dashPos = line.find('-');
+            if (dashPos != std::string::npos) {
+                return std::stoul(line.substr(0, dashPos), nullptr, 16);
             }
-        } else {
-
-            if (g_cs2_pid != 0) {
-                std::cout << "[+] CS2 closed, waiting..." << std::endl;
-                Menu::SetWallhackEnabled(false);
-            }
-            g_cs2_pid = 0;
-            g_client_base = 0;
-            g_patch_addr = 0;
         }
-        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
-}
-
-
-void ApplyPatch() {
-    static bool last_state = false;
-    
-    while (g_running) {
-        bool current = Menu::IsWallhackEnabled();
-        
-        if (g_cs2_pid != 0 && g_patch_addr != 0 && current != last_state) {
-            if (current) {
-                uint8_t nop[] = {0x90, 0x90};
-                uint8_t current_bytes[2];
-                
-                if (ProcessManager::ReadMemory(g_cs2_pid, g_patch_addr, current_bytes, 2)) {
-                    if (current_bytes[0] == 0x31 && current_bytes[1] == 0xc0) {
-                        if (ProcessManager::WriteMemory(g_cs2_pid, g_patch_addr, nop, 2)) {
-                            std::cout << "[+] Wallhack ON." << std::endl;
-                        }
-                    }
-                }
-            } else {
-
-                uint8_t original[] = {0x31, 0xc0};
-                uint8_t current_bytes[2];
-                
-                if (ProcessManager::ReadMemory(g_cs2_pid, g_patch_addr, current_bytes, 2)) {
-                    if (current_bytes[0] == 0x90 && current_bytes[1] == 0x90) {
-                        if (ProcessManager::WriteMemory(g_cs2_pid, g_patch_addr, original, 2)) {
-                            std::cout << "[+] Wallhack OFF." << std::endl;
-                        }
-                    }
-                }
-            }
-            last_state = current;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
-}
-
-
-int main() {
-    std::cout << "// Linux CS2 by @islavikfx.\n";
-    
-    if (!InitializeCS2()) {
-        return 1;
-    }
-    
-    if (!Menu::Setup()) {
-        std::cerr << "[+] Failed to init." << std::endl;
-        return 1;
-    }
-    
-    std::thread finder(FindCS2);
-    std::thread applier(ApplyPatch);
-    
-    auto lastTime = std::chrono::high_resolution_clock::now();
-    int frameCount = 0;
-    float currentFPS = 0.0f;
-    
-    while (Menu::IsRunning()) {
-        Menu::Render();
-        
-        frameCount++;
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            currentTime - lastTime).count();
-        
-        if (elapsed >= 1000) {
-            currentFPS = frameCount * 1000.0f / elapsed;
-            frameCount = 0;
-            lastTime = currentTime;
-            Menu::SetCurrentFPS(currentFPS);
-        }
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    }
-    
-    g_running = false;
-    finder.join();
-    applier.join();
-    Menu::Shutdown();
-    
     return 0;
+}
 
+
+bool ProcessManager::ReadMemory(uint32_t pid, uintptr_t address, void* buffer, size_t size) {
+    std::string memPath = "/proc/" + std::to_string(pid) + "/mem";
+    int memFd = open(memPath.c_str(), O_RDONLY);
+    if (memFd == -1) return false;
+    
+    lseek(memFd, address, SEEK_SET);
+    ssize_t bytesRead = read(memFd, buffer, size);
+    close(memFd);
+    
+    return bytesRead == static_cast<ssize_t>(size);
+}
+
+
+bool ProcessManager::WriteMemory(uint32_t pid, uintptr_t address, const void* buffer, size_t size) {
+    std::string memPath = "/proc/" + std::to_string(pid) + "/mem";
+    int memFd = open(memPath.c_str(), O_RDWR);
+    if (memFd == -1) return false;
+    
+    lseek(memFd, address, SEEK_SET);
+    ssize_t bytesWritten = write(memFd, buffer, size);
+    close(memFd);
+    
+    return bytesWritten == static_cast<ssize_t>(size);
+    
 }
