@@ -22,8 +22,6 @@ Run with sudo if doesnt work.
  
  [+] Updated Offsets.h for last version.
 
-Youtube video: https://youtu.be/M0zOoZ9-VBs
-
 The offset in Offsets.h may need to be updated over time.
 
 Telegram contact: @islavikfx
