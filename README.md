@@ -18,9 +18,11 @@ make -j$(nproc)
 ```
 Run with sudo if doesnt work.
 
-#### Changelog from 29 July 2026:
+#### Changelog from 4 Aug 2026:
  
- [+] Updated Offsets.h for last version.
+ [+] Updated Offsets.h/main.cpp for last version.
+
+ [+] Updated CMake optimization.
 
 The offset in Offsets.h may need to be updated over time.
 
