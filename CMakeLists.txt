@@ -1,13 +1,19 @@
 cmake_minimum_required(VERSION 3.28.3)
 project(LinuxCS2 VERSION 1.2.3 LANGUAGES C CXX)
 
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_COLOR_DIAGNOSTICS ON)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -pthread")
+option(ENABLE_SANITIZERS "Enable address/undefined sanitizers" OFF)
+option(BUILD_TESTING "Build tests" OFF)
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2 -pthread")
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/src/imgui)
-
-
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(Threads REQUIRED)
@@ -33,7 +39,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp)
 
 target_link_libraries(${PROJECT_NAME}
-    ${OPENGL_LIBRARIES}
+    OpenGL::GL
     glfw
-    dl
-    ${CMAKE_THREAD_LIBS_INIT})
+    ${CMAKE_DL_LIBS}
+    Threads::Threads)
