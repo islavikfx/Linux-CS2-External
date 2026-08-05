@@ -27,3 +27,5 @@ Run with sudo if doesnt work.
 The offset in Offsets.h may need to be updated over time.
 
 Telegram contact: @islavikfx
+
+Discord contact: @jeddy01759
