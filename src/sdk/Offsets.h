@@ -9,7 +9,6 @@ namespace Offsets {
 
 
 std::string xrayasm = R"(
-// # ZGTtNSt15underflow_errorC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE .718b68f5568f
 Dump of assembler code from 0x718b68f5568f to 0x718b68f556b7:
    0x0000718b68f5568f:	mov    eax,DWORD PTR [rax]
    0x0000718b68f55691:	test   rbx,rbx
