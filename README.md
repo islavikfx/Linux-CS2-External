@@ -6,7 +6,7 @@ WH memory patch for Counter-Strike 2 on Linux.
 
 ### Run CS2 and open terminal, type this:
 ```bash
-sudo apt install build-essential cmake git libglfw3-dev libglew-dev libopengl-dev
+sudo apt install build-essential cmake g++ git libglfw3-dev libglew-dev libopengl-dev
 cd ~
 git clone https://github.com/islavikfx/Linux-CS2-External.git
 cd Linux-CS2-External/
