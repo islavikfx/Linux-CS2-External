@@ -4,29 +4,29 @@
 
 
 namespace Offsets {
-    inline uintptr_t xray = 0x1a0268f + 0x13; // # August 28, 2026
+    inline uintptr_t xray = 0x1a08c4f + 0x13; // # September 10, 2026
 }
 
 
 std::string xrayasm = R"(
-Dump of assembler code from 0x718b68f5568f to 0x718b68f556b7:
-   0x0000718b68f5568f:	mov    eax,DWORD PTR [rax]
-   0x0000718b68f55691:	test   rbx,rbx
-   0x0000718b68f55694:	sete   r12b
-   0x0000718b68f55698:	test   eax,eax
-   0x0000718b68f5569a:	sete   al
-   0x0000718b68f5569d:	or     r12b,al
-   0x0000718b68f556a0:	je     0x718b68f556b8
-   // # 0x0000718b68f556a2:	xor    eax,eax (return nop, nop)
-   0x0000718b68f556a4:	add    rsp,0x38
-   0x0000718b68f556a8:	pop    rbx
-   0x0000718b68f556a9:	pop    r12
-   0x0000718b68f556ab:	pop    r13
-   0x0000718b68f556ad:	pop    r14
-   0x0000718b68f556af:	pop    r15
-   0x0000718b68f556b1:	pop    rbp
-   0x0000718b68f556b2:	ret
-   0x0000718b68f556b3:	nop    DWORD PTR [rax+rax*1+0x0]
+Dump of assembler code from 0x7649a0f53c4f to 0x7649a0f53c77:
+   // # 0x00007649a0f53c4f:	mov    eax,DWORD PTR [rax]
+   0x00007649a0f53c51:	test   rbx,rbx
+   0x00007649a0f53c54:	sete   r12b
+   0x00007649a0f53c58:	test   eax,eax
+   0x00007649a0f53c5a:	sete   al
+   0x00007649a0f53c5d:	or     r12b,al
+   0x00007649a0f53c60:	je     0x7649a0f53c78
+   // # 0x00007649a0f53c62:	xor    eax,eax (return nop, nop)
+   0x00007649a0f53c64:	add    rsp,0x38
+   0x00007649a0f53c68:	pop    rbx
+   0x00007649a0f53c69:	pop    r12
+   0x00007649a0f53c6b:	pop    r13
+   0x00007649a0f53c6d:	pop    r14
+   0x00007649a0f53c6f:	pop    r15
+   0x00007649a0f53c71:	pop    rbp
+   0x00007649a0f53c72:	ret
+   0x00007649a0f53c73:	nop    DWORD PTR [rax+rax*1+0x0]
 End of assembler dump.
 )";
 
