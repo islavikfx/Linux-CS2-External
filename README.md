@@ -18,13 +18,9 @@ make -j$(nproc)
 ```
 Ignore errors that you may see. Run with sudo ./LinuxCS2 if doesnt work.
 
-#### Changelog from 28 August 2026:
-
- [+] Removed FPS counter/Global update for menu logic.
+#### Changelog from 10 September 2026:
  
- [+] Updated Offsets.h for last version.
- 
- [+] Updated Menu UI/Optimizations.
+ [+] Updated menu for last game version.
 
 The offset in Offsets.h may need to be updated over time.
 
