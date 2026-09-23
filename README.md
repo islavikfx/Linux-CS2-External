@@ -16,9 +16,11 @@ cmake ..\\
 make -j$(nproc)
 ./LinuxCS2
 ```
-Ignore errors that you may see. Run with sudo ./LinuxCS2 if doesnt work.
+Ignore errors that you may see while building project.
 
-#### Changelog from 10 September 2026:
+Run with sudo ./LinuxCS2 if doesn't work or write spec_show_xray 1 in CS2 console.
+
+#### Changelog from 23 September 2026:
  
  [+] Updated menu for last game version.
 
