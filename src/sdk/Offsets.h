@@ -4,32 +4,44 @@
 
 
 namespace Offsets {
-    inline uintptr_t xray = 0x1a39130 + 0x14; // # September 23, 2026
+    inline uintptr_t xray = 0x1a39244 + 0x0; // # September 24, 2026
 }
 
 
 std::string xrayasm = R"(
-Dump of assembler code from 0x7d6fb0e6c130 to 0x7d6fb0e6c158:
-   # // 0x00007d6fb0e6c130:	mov    r8d,DWORD PTR [rax+0x58] *(0x14 >)
-   0x00007d6fb0e6c134:	test   r8d,r8d
-   0x00007d6fb0e6c137:	sete   bl
-   0x00007d6fb0e6c13a:	test   rsi,rsi
-   0x00007d6fb0e6c13d:	sete   al
-   0x00007d6fb0e6c140:	or     bl,al
-   0x00007d6fb0e6c142:	je     0x7d6fb0e6c158
-   # // 0x00007d6fb0e6c144:	xor    eax,eax *(return nop, nop)
-   0x00007d6fb0e6c146:	add    rsp,0x28
-   0x00007d6fb0e6c14a:	pop    rbx
-   0x00007d6fb0e6c14b:	pop    r12
-   0x00007d6fb0e6c14d:	pop    r13
-   0x00007d6fb0e6c14f:	pop    r14
-   0x00007d6fb0e6c151:	pop    r15
-   0x00007d6fb0e6c153:	pop    rbp
-   0x00007d6fb0e6c154:	ret
-   0x00007d6fb0e6c155:	nop    DWORD PTR [rax]
+Dump of assembler code from 0x7a95b4e6c230 to 0x7a95b4e6c258:
+   0x00007a95b4e6c230:	mov    r8d,DWORD PTR [rax+0x58]
+   0x00007a95b4e6c234:	test   r8d,r8d
+   0x00007a95b4e6c237:	sete   bl
+   0x00007a95b4e6c23a:	test   rsi,rsi
+   0x00007a95b4e6c23d:	sete   al
+   0x00007a95b4e6c240:	or     bl,al
+   0x00007a95b4e6c242:	je     0x7a95b4e6c258
+   0x00007a95b4e6c244:	xor    eax,eax
+   0x00007a95b4e6c246:	add    rsp,0x28
+   0x00007a95b4e6c24a:	pop    rbx
+   0x00007a95b4e6c24b:	pop    r12
+   0x00007a95b4e6c24d:	pop    r13
+   0x00007a95b4e6c24f:	pop    r14
+   0x00007a95b4e6c251:	pop    r15
+   0x00007a95b4e6c253:	pop    rbp
+   0x00007a95b4e6c254:	ret
+   0x00007a95b4e6c255:	nop    DWORD PTR [rax]
 End of assembler dump.
-)";
-
-
-# // My launch options for Shitical-Strike 2 if someone need (Nvidia, No vulcan shaders, "-threads 13" - CPU 12/6, Set your own but +1);
-# // __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only %command% -vulkan -novid -tickrate 128 -threads 13 -nojoy -high -fullscreen +fps_max 0 +fps_max_menu 120 +fps_max_ui 120 +r_show_build_info false +r_dynamic 0 +cl_forcepreload 0 +cl_radar_square_always true +r_fullscreen_gamma 2.45 +viewmodel_offset_y -1.80 +viewmodel_offset_x 0.65 +viewmodel_fov 75 +sv_cheats true
+rax=0x3274aebb4c8
+rbx=0x327e3597000
+rcx=0x7ffd689a11d0
+rdx=0x7ffd689a11e0
+rsi=0x327de821000
+rdi=0x327e3597000
+rbp=0x7ffd689a1170
+rsp=0x7ffd689a1120
+rip=0x7a95b4e6c234
+r8=0x1
+r9=0x7ffd689a11d8
+r10=0x0
+r11=0x9
+r12=0x7a95b79366a8
+r13=0x327de821000
+r14=0x7ffd689a11dc
+r15=0x7ffd689a11cf)";
