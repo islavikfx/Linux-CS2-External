@@ -25,7 +25,7 @@ bool ValidateOffset() {
         return true;
     }
     
-    std::cout << "[+] Offset not matching (0x1a39130 + 0x14) - last update at 23 September 2026."
+    std::cout << "[+] Offset not matching (0x1a39244 + 0x0) - last update at 24 September 2026."
     << " Maybe CS2 Updated. Check for update at GitHub page or try to restart game." << std::endl;
     return false;
 }
