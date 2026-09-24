@@ -18,9 +18,9 @@ make -j$(nproc)
 ```
 Ignore errors that you may see while building project.
 
-Run with sudo ./LinuxCS2 if doesn't work or write spec_show_xray 1 in CS2 console.
+Run with sudo ./LinuxCS2 if doesnt work.
 
-#### Changelog from 23 September 2026:
+#### Changelog from 24 September 2026:
  
  [+] Updated menu for last game version.
 
