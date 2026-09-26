@@ -20,7 +20,7 @@ Ignore errors that you may see while building project.
 
 Run with sudo ./LinuxCS2 if doesnt work.
 
-#### Changelog from 24 September 2026:
+#### Changelog from 26 September 2026:
  
  [+] Updated menu for last game version.
 
