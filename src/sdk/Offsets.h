@@ -4,5 +4,5 @@
 
 
 namespace Offsets {
-    inline uintptr_t xray = 0x1a3aa64 + 0x0; // # September 30, 2026
+    inline uintptr_t xray = 0x1a37804 + 0x0; // # October 1, 2026
 }
