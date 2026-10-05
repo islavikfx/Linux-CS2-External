@@ -1,6 +1,6 @@
 ## Linux CS2 External
 
-WH memory patch for Counter-Strike 2 on Linux.
+External menu for Shitical-Strike 2 on Linux.
 
 ![Menu](https://github.com/islavikfx/Linux-CS2-External/blob/main/img/input.png?raw=true)
 
@@ -16,14 +16,19 @@ cmake ..\\
 make -j$(nproc)
 ./LinuxCS2
 ```
-Ignore errors that you may see while building project.
 
-Run with sudo ./LinuxCS2 if doesnt work or try to press "X" on keyboard.
+If you doesn't see wallhack glow then try to press "X" on keyboard.
 
-#### Changelog from 1 October 2026:
+#### Changelog from 5 October 2026:
  
- [+] Updated menu for last game version.
+ [+] Added new feature "Always Crosshair" - when you make weapons swap to AWP/SSG08 you will still see your crosshair ;)
 
-The offset in Offsets.h may need to be updated over time.
+ [+] Updated Offsets.h for last update;
+
+ [+] Optimized compile options;
+
+ [+] Updated menu UI/Logic.
+
+The offsets in Offsets.h may need to be updated over game updates.
 
 Telegram & Discord: @jeddy01759
