@@ -10,10 +10,10 @@
 
 
 static std::atomic<bool> g_running{true};
-static uint32_t  g_cs2_pid     = 0;
+static uint32_t  g_cs2_pid = 0;
 static uintptr_t g_client_base = 0;
-static uintptr_t g_xray_addr   = 0;
-static uintptr_t g_cross_addr  = 0;
+static uintptr_t g_xray_addr = 0;
+static uintptr_t g_cross_addr = 0;
 
 
 bool ValidateOffset() {
@@ -22,7 +22,7 @@ bool ValidateOffset() {
     uint8_t xray_bytes[Patchs::xray_len];
 
     if (!ProcessManager::ReadMemory(g_cs2_pid, g_xray_addr, xray_bytes, Patchs::xray_len)) {
-        std::cerr << "[-] Cannot read xray offset." << std::endl;
+        std::cerr << "[-] Cannot read offsets." << std::endl;
         return false;
     }
 
@@ -113,7 +113,7 @@ void ApplyXray() {
             last_state = current;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
@@ -148,7 +148,7 @@ void ApplyCrosshair() {
             last_state = current;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
