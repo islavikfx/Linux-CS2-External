@@ -10,13 +10,9 @@ set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/src/imgui)
 
 
 find_package(OpenGL REQUIRED)
-option(BUILD_TESTING "Build tests" OFF)
 find_package(glfw3 REQUIRED)
 find_package(Threads REQUIRED)
-
-
-add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wcast-align -Wconversion
--Wsign-conversion -Wunused -Wnull-dereference -Wdouble-promotion -Wformat=2)
+add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wcast-align)
 
 add_executable(${PROJECT_NAME} src/main.cpp
 src/gui/Menu.cpp
