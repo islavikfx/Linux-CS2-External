@@ -19,11 +19,11 @@ make -j$(nproc)
 
 If you doesn't see wallhack glow then try to press "X" on keyboard.
 
-#### Changelog from 5 October 2026:
+#### Changelog from 5/6 October 2026:
  
- [+] Added new feature "Always Crosshair" - when you make weapons swap to AWP/SSG08 you will still see your crosshair ;)
+ [+] Added new feature "Always Crosshair";
 
- [+] Updated Offsets.h for last update;
+ [+] Updated Offsets.h for last version;
 
  [+] Optimized compile options;
 
