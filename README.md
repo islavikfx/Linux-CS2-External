@@ -31,4 +31,4 @@ If you doesn't see wallhack glow then try to press "X" on keyboard.
 
 The offsets in Offsets.h may need to be updated over game updates.
 
-Telegram & Discord: @jeddy01759
+Telegram & Discord: @islavikfx
