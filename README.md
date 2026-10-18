@@ -19,15 +19,11 @@ make -j$(nproc)
 
 If you doesn't see wallhack glow then try to press "X" on keyboard.
 
-#### Changelog from 5/6 October 2026:
- 
- [+] Added new feature "Always Crosshair";
+#### Changelog from 18 October 2026:
 
- [+] Updated Offsets.h for last version;
+ [+] Updated offsets for last version;
 
- [+] Optimized compile options;
-
- [+] Updated menu UI/Logic.
+ [+] Updated main.cpp.
 
 The offsets in Offsets.h may need to be updated over game updates.
 
