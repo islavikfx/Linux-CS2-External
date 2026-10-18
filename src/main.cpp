@@ -27,7 +27,7 @@ bool ValidateOffset() {
     }
 
     if (std::memcmp(xray_bytes, Patchs::xray_off, Patchs::xray_len) != 0) {
-        std::cout << "[~] Offsets not matching - last update at 5 October 2026." << " Maybe CS2 Updated. Check for update at GitHub page or try to restart game." << std::endl;
+        std::cout << "[~] Offsets not matching - last update at " << Offsets::datee << " Maybe CS2 Updated. Check for update at GitHub page or try to restart game." << std::endl;
         return false;
     }
 
