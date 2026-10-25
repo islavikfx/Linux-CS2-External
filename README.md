@@ -26,6 +26,6 @@ If you doesn't see wallhack glow then try to press "X" on keyboard.
 
  *Dont shoot into smokes or hold your crosshair too much on an enemy and everything will be fine.
 
-Sometimes I start CS2 and updating menu but this is still a fun menu and was never planned to be anything big ;)
+Sometimes I start CS2 and updating menu but this is still a fun menu and was never planned to be anything big. You can remind me to update the menu if you want to, contacts to chat are public.
 
 Telegram & Discord: @islavikfx
