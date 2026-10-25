@@ -19,12 +19,13 @@ make -j$(nproc)
 
 If you doesn't see wallhack glow then try to press "X" on keyboard.
 
-#### Changelog from 18 October 2026:
+### Readme:
+ #### // About VAC changes in the October updates:
 
- [+] Updated offsets for last version;
+ *This menu uses external memory writes and Valve still cant do anything about it;
 
- [+] Updated main.cpp.
+ *Dont shoot into smokes or hold your crosshair too much on an enemy and everything will be fine.
 
-The offsets in Offsets.h may need to be updated over game updates.
+Sometimes I start CS2 and updating menu but this is still a fun menu and was never planned to be anything big ;)
 
 Telegram & Discord: @islavikfx
